@@ -17,15 +17,7 @@
                                     </th>
                                     <th scope="col"
                                         class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
-                                        Nombre del Propietario
-                                    </th>
-                                    <th scope="col"
-                                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
-                                        Nombre de Usuario
-                                    </th>
-                                    <th scope="col"
-                                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
-                                        Contraseña
+                                        Nombre
                                     </th>
                                     <th scope="col"
                                         class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
@@ -33,33 +25,50 @@
                                     </th>
                                     <th scope="col"
                                         class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
-                                        Fecha de Creacion
+                                        Rol
                                     </th>
-
+                                    <th scope="col"
+                                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
+                                        Fecha de Creación
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
+                                        Acción
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-orange-300 border-b border border-gray-400">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        000
-                                    </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
-                                        Administrador
-                                    </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
-                                        Admin
-                                    </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
-                                        contraseña
-                                    </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
-                                        admin@admin.com
-                                    </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
-                                        29/05/2024
-                                    </td>
-
-                                </tr>
+                                @foreach ($users as $user)
+                                    <tr class="bg-orange-300 border-b border border-gray-400">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ $user->id }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            {{ $user->name }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            {{ $user->email }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            {{ $user->roles->pluck('name')->implode(', ') }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            {{ $user->created_at->format('d/m/Y') }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            <a href="{{ route('users.edit', $user->id) }}"
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</a>
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -67,8 +76,9 @@
             </div>
         </div>
 
-        <button class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 my-2 px-4 rounded">
-            <a href="{{ url('users/create') }}" class="text-white">Agregar Usuario</a>
-        </button>
+        <a href="{{ route('users.create') }}"
+            class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 my-2 px-4 rounded inline-block">
+            Agregar Usuario
+        </a>
     </div>
 @endsection

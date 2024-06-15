@@ -46,17 +46,17 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         No hay registros disponibles
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
-                                    <td class="text-sm text-black font-light px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                     </td>
                                 </tr>
                             </tbody>

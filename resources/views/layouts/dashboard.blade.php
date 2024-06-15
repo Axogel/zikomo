@@ -15,25 +15,33 @@
 
 <body class="bg-white ">
     <div class="flex flex-col md:flex-row h-screen">
-        <nav id="sidebar" class="hidden md:w-64 bg-zinc-600 border-r border-zinc-900 ">
+        <nav id="sidebar" class="hidden md:w-64 h-screen flex flex-col bg-zinc-600 border-r border-zinc-900">
             <div class="flex flex-col items-center py-4 text-white">
                 <img src="{{ asset('images/zikomo-logo.png') }}" alt="Admin Avatar" class="w-16 h-16 rounded-full">
                 <h2 class="mt-2 text-lg font-semibold text-white">ZiKomo</h2>
             </div>
-            <ul class="mt-4">
-                <li><a href="{{ url('/') }}"
+            <ul class="mt-4 flex-1">
+                <li><a href="{{ url('inicio') }}"
                         class="block py-2.5 px-4 rounded text-white transition duration-200 hover:bg-orange-400 hover:text-white">Inicio</a>
                 </li>
                 <li><a href="{{ url('users') }}"
                         class="block py-2.5 px-4 rounded text-white transition duration-200 hover:bg-orange-400 hover:text-white">Usuarios</a>
                 </li>
-                <li><a href="#"
-                        class="block py-2.5 px-4 rounded text-white transition duration-200 hover:bg-orange-400 hover:text-white">Administración</a>
-                </li>
+                @if (auth()->user()->hasAnyRole(['admin', 'mesonero']))
+                    <li>
+                        <a href="#"
+                            class="block py-2.5 px-4 rounded text-white transition duration-200 hover:bg-orange-400 hover:text-white">
+                            Administración
+                        </a>
+                    </li>
+                @endif
                 <li><a href="#"
                         class="block py-2.5 px-4 rounded text-white transition duration-200 hover:bg-orange-400 hover:text-white">Promociones</a>
                 </li>
             </ul>
+            <div class="flex flex-col items-center py-4 text-white">
+                <p>{{ auth()->user()->name }}</p>
+            </div>
         </nav>
 
 
@@ -69,8 +77,21 @@
                     </button>
                     <div id="profile-menu"
                         class="hidden absolute right-0 mt-10 w-48 bg-zinc-600 border border-zinc-800 rounded-lg shadow-lg">
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-orange-400 rounded-lg">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-orange-400 rounded-lg">Sign Out</a>
+                        <a href="{{ route('profile') }}"
+                            class="block px-4 py-2 text-white hover:bg-orange-400 rounded-lg">Profile</a>
+
+
+
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a href="#" class="block px-4 py-2 text-white hover:bg-orange-400 rounded-lg"
+                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </a>
+                        </form>
+
+
                     </div>
                 </div>
             </header>
