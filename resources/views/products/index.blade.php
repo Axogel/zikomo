@@ -65,7 +65,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="table-body">
+                            <tbody class=" border border-gray-400" id="table-body">
                                 @foreach ($products as $product)
                                     <tr class="bg-orange-300 border-b border-gray-400">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">

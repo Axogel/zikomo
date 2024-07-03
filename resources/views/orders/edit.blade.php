@@ -1,23 +1,24 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Nueva Orden')
+@section('title', 'Editar Orden')
 
 @section('content')
     <div class="bg-orange-300 p-6 rounded-lg shadow-lg shadow-orange-400">
-        <h2 class="text-2xl font-bold mb-4">Crear Orden de Pedido</h2>
-        <form action="{{ route('orders.store') }}" method="POST">
+        <h2 class="text-2xl font-bold mb-4">Editar Orden</h2>
+        <form action="{{ route('orders.update', $order->id) }}" method="POST">
             @csrf
+            @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="cliente">Cliente</label>
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
-                    id="cliente" name="cliente" type="text" placeholder="Ingrese el Nombre del Cliente" required>
+                    id="cliente" name="cliente" type="text" value="{{ $order->cliente }}" required>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="cedula">Cédula del Cliente</label>
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
-                    id="cedula" name="cedula" type="text" placeholder="Ingrese la Cédula del Cliente" required>
+                    id="cedula" name="cedula" type="text" value="{{ $order->cedula }}" required>
             </div>
             <div class="mb-4 flex">
                 <div class="w-1/2 pr-2">
@@ -45,6 +46,19 @@
                     <div id="productos-seleccionados"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight bg-orange-200">
                         <!-- Productos seleccionados se mostrarán aquí -->
+                        @foreach ($order->products as $index => $product)
+                            <div class="producto-seleccionado flex mb-2">
+                                <span class="w-full py-2 px-3 text-gray-700">{{ $product->nombre }}</span>
+                                <span class="w-1/4 py-2 px-3 text-gray-700">{{ $product->pivot->quantity }}</span>
+                                <input type="hidden" name="productos[{{ $index }}][producto_id]"
+                                    value="{{ $product->id }}">
+                                <input type="hidden" name="productos[{{ $index }}][cantidad]"
+                                    value="{{ $product->pivot->quantity }}">
+                                <button type="button"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    onclick="this.parentElement.remove()">Quitar</button>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -52,13 +66,13 @@
                 <label class="block text-gray-700 font-bold mb-2" for="fecha_entrega">Fecha de Entrega</label>
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
-                    id="fecha_entrega" name="fecha_entrega" type="date" required>
+                    id="fecha_entrega" name="fecha_entrega" type="date" value="{{ $order->fecha_entrega }}" required>
             </div>
             <div class="flex items-center justify-between">
                 <button
                     class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit">
-                    Crear Orden
+                    Actualizar Orden
                 </button>
                 <button
                     class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
