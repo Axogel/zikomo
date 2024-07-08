@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log; // Add this line
+use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
@@ -27,15 +29,16 @@ class OrdersController extends Controller
         $products = Product::all();
         return view('orders.edit', compact('order', 'products'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
             'cliente' => 'required|string|max:255',
             'cedula' => 'required|string|max:255',
+            'tipo' => 'required|string|in:Para llevar,Para comer aquí',
             'productos' => 'required|array',
             'productos.*.producto_id' => 'required|exists:products,id',
             'productos.*.cantidad' => 'required|integer|min:1',
-            'fecha_entrega' => 'required|date',
         ]);
 
         try {
@@ -44,12 +47,16 @@ class OrdersController extends Controller
             $order = new Order();
             $order->cliente = $request->cliente;
             $order->cedula = $request->cedula;
-            $order->fecha_entrega = $request->fecha_entrega;
+            $order->tipo = $request->tipo;
+            $order->fecha_entrega = Carbon::now();
             $order->save();
 
             foreach ($request->productos as $producto) {
                 $order->products()->attach($producto['producto_id'], ['quantity' => $producto['cantidad']]);
                 $product = Product::find($producto['producto_id']);
+                if ($product->unidades < $producto['cantidad']) {
+                    throw new \Exception('La cantidad solicitada excede el stock disponible.');
+                }
                 $product->unidades -= $producto['cantidad'];
                 $product->save();
             }
@@ -59,6 +66,7 @@ class OrdersController extends Controller
             return redirect()->route('orders.index')->with('success', 'Orden creada correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error al crear la orden: ' . $e->getMessage());
             return back()->withInput()->withErrors(['error' => 'Error al crear la orden: ' . $e->getMessage()]);
         }
     }
@@ -68,10 +76,10 @@ class OrdersController extends Controller
         $request->validate([
             'cliente' => 'required|string|max:255',
             'cedula' => 'required|string|max:255',
+            'tipo' => 'required|string|in:Para llevar,Para comer aquí',
             'productos' => 'required|array',
             'productos.*.producto_id' => 'required|integer|exists:products,id',
             'productos.*.cantidad' => 'required|integer|min:1',
-            'fecha_entrega' => 'required|date',
         ]);
 
         DB::transaction(function () use ($request, $id) {
@@ -79,7 +87,8 @@ class OrdersController extends Controller
             $order->update([
                 'cliente' => $request->input('cliente'),
                 'cedula' => $request->input('cedula'),
-                'fecha_entrega' => $request->input('fecha_entrega'),
+                'tipo' => $request->input('tipo'),
+                'fecha_entrega' => Carbon::now(),
             ]);
 
             // Restore previous inventory

@@ -19,6 +19,7 @@
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
                     id="cedula" name="cedula" type="text" placeholder="Ingrese la Cédula del Cliente" required>
             </div>
+
             <div class="mb-4 flex">
                 <div class="w-1/2 pr-2">
                     <label class="block text-gray-700 font-bold mb-2">Productos</label>
@@ -49,10 +50,14 @@
                 </div>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2" for="fecha_entrega">Fecha de Entrega</label>
-                <input
+                <label class="block text-gray-700 font-bold mb-2" for="tipo">Tipo de Orden</label>
+                <select id="tipo" name="tipo"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
-                    id="fecha_entrega" name="fecha_entrega" type="date" required>
+                    required>
+                    <option value="">Seleccione el tipo de orden</option>
+                    <option value="Para llevar">Para llevar</option>
+                    <option value="Para comer aquí">Para comer aquí</option>
+                </select>
             </div>
             <div class="flex items-center justify-between">
                 <button

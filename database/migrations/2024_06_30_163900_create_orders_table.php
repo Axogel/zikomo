@@ -12,6 +12,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('cliente');
             $table->string('cedula');
+            $table->string('tipo');
             $table->date('fecha_entrega');
             $table->timestamps();
         });

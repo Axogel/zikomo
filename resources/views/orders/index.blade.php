@@ -37,6 +37,10 @@
                                     </th>
                                     <th scope="col"
                                         class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
+                                        Tipo
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left border-x border-gray-400">
                                         Productos
                                     </th>
                                     <th scope="col"
@@ -61,6 +65,9 @@
                                         </td>
                                         <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                             {{ $order->cliente }}
+                                        </td>
+                                        <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
+                                            {{ $order->tipo }}
                                         </td>
                                         <td class="text-sm text-black font-medium px-6 py-4 whitespace-nowrap">
                                             @foreach ($order->products as $product)

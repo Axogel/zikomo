@@ -12,6 +12,7 @@ class Order extends Model
     protected $fillable = [
         'cliente',
         'cedula',
+        'tipo',
         'fecha_entrega',
     ];
 
