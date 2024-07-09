@@ -20,6 +20,17 @@
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
                     id="cedula" name="cedula" type="text" value="{{ $order->cedula }}" required>
             </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="tipo">Tipo de Orden</label>
+                <select id="tipo" name="tipo"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-200 placeholder-gray-700"
+                    required>
+                    <option value="">Seleccione el tipo de orden</option>
+                    <option value="Para llevar" {{ $order->tipo == 'Para llevar' ? 'selected' : '' }}>Para llevar</option>
+                    <option value="Para comer aquí" {{ $order->tipo == 'Para comer aquí' ? 'selected' : '' }}>Para comer
+                        aquí</option>
+                </select>
+            </div>
             <div class="mb-4 flex">
                 <div class="w-1/2 pr-2">
                     <label class="block text-gray-700 font-bold mb-2">Productos</label>
